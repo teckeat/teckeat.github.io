@@ -1,0 +1,41 @@
+<html><head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <img src="shesterny.jpeg" width="700" height="700" title="Шестерня">
+        <h1>Курбатов В.К.</h1>
+        <p> АДБ-21-11</p>
+    </div>
+    <div class="main">
+        <button class="btn" onclick="myFunction()">Получить данные</button>
+        <ul id="demo">
+
+        </ul>
+        </div>
+    
+    <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        function myFunction() {
+            (async () => {
+        while(true) {
+                let response = await fetch('https://kav-api.kovalev.team/servodrive/lastActualData?servoDriveId=1');
+                let el = document.getElementById('demo')
+                el.innerHTML = ""
+                let text = await response.text(); // прочитать тело ответа как текст
+                for (const [key, value] of Object.entries(JSON.parse(text)[0])) {
+                    const newEl = document.createElement("li")
+                    newEl.appendChild(document.createTextNode(`${key}: ${value}`))
+        el.appendChild(newEl)
+                    await(450)                        
+                    }
+    
+    }
+            })()
+        }
+    </script>
+
+</body></html>
